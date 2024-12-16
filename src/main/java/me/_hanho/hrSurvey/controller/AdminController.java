@@ -44,9 +44,10 @@ public class AdminController {
 		result.put("code", 200);
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
-	// 설문 목록 조회
+	// 설문 공통 정보 저장
 	@PostMapping("/company/common")
-	public ResponseEntity<Map<String, Object>> adminSetCommon(@ModelAttribute Common_info asda) {
+	public ResponseEntity<Map<String, Object>> adminSetCommon(@ModelAttribute Common_info c_info,
+			@RequestParam("s_year") int s_year) {
 		System.out.println("adminSetCommon");
 		Map<String, Object> result = new HashMap<String, Object>();
 		
