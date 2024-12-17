@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import me._hanho.hrSurvey.model.Common_info;
 import me._hanho.hrSurvey.model.Survey;
 import me._hanho.hrSurvey.service.AdminService;
+import me._hanho.hrSurvey.service.SurveyService;
 
 
 @RestController
@@ -51,14 +52,19 @@ public class AdminController {
 		System.out.println("adminSetCommon");
 		Map<String, Object> result = new HashMap<String, Object>();
 		
+		adminService.adminSetCommon(c_info, s_year);
+		
 		result.put("msg", "success");
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
-	// 설문 생성
+	// 설문 수정
 	@PostMapping("/company")
-	public ResponseEntity<Map<String, Object>> adminSetSurvey() {
+	public ResponseEntity<Map<String, Object>> adminSetSurvey(@ModelAttribute Survey survey,
+			@RequestParam("s_year") int s_year) {
 		System.out.println("adminSetSurvey");
 		Map<String, Object> result = new HashMap<String, Object>();
+		
+		adminService.adminSetSurvey(survey);
 		
 		result.put("msg", "success");
 		return new ResponseEntity<>(result, HttpStatus.OK);

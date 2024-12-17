@@ -11,4 +11,8 @@ public interface AdminService {
 
 	List<Survey> getSurveys(int s_year);
 
+	void adminSetCommon(Common_info c_info, int s_year);
+
+	void adminSetSurvey(Survey survey);
+
 }
