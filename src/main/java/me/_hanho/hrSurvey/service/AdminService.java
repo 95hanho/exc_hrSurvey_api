@@ -13,6 +13,6 @@ public interface AdminService {
 
 	void adminSetCommon(Common_info c_info, int s_year);
 
-	void adminSetSurvey(Survey survey);
+	void adminSetSurvey(Survey survey, int s_year);
 
 }

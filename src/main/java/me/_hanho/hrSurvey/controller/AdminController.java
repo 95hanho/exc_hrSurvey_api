@@ -64,36 +64,20 @@ public class AdminController {
 		System.out.println("adminSetSurvey");
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		adminService.adminSetSurvey(survey);
-		
-		result.put("msg", "success");
-		return new ResponseEntity<>(result, HttpStatus.OK);
-	}
-	// 설문 배너 조회
-	@GetMapping("/company/detail/{sType}")
-	public ResponseEntity<Map<String, Object>> adminGetSurveyBanner(@PathVariable("sType") String sType) {
-		System.out.println("adminGetSurveyBanner");
-		Map<String, Object> result = new HashMap<String, Object>();
-		
-		result.put("msg", "success");
-		return new ResponseEntity<>(result, HttpStatus.OK);
-	}
-	// 설문 베너 저장
-	@PostMapping("/company/detail/{sType}")
-	public ResponseEntity<Map<String, Object>> adminSetSurveyBanner(@PathVariable("sType") String sType) {
-		System.out.println("adminSetSurveyBanner");
-		Map<String, Object> result = new HashMap<String, Object>();
+		adminService.adminSetSurvey(survey, s_year);
 		
 		result.put("msg", "success");
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	// 설문 정보 조회
 	@GetMapping("/question/{sType}/{sPage}")
-	public ResponseEntity<Map<String, Object>> adminGetSurveyInfo(@PathVariable("sType") String sType, @PathVariable("sPage") String sPage) {
+	public ResponseEntity<Map<String, Object>> adminGetSurveyInfo(@PathVariable("sType") String sType,
+			@PathVariable("sPage") String sPage) {
 		System.out.println("adminGetSurveyInfo");
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		result.put("msg", "success");
+		
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	// 설문 정보 저장
