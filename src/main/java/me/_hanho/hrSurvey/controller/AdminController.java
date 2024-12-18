@@ -84,9 +84,19 @@ public class AdminController {
 		SurveyInfo surveyInfo = adminService.getSurveyInfo(sType, sPage);
 		
 		if(surveyInfo == null) {
-			int hasSurvey = adminService.hasSurvey(sType);
-			if()
-			result.put("code", 4035); // 설문이 아예 없을 때
+			if(!sPage.equals("1")) {
+				result.put("code", 4035); // 설문이 아예 없을 때
+			} else {
+				int hasSurvey = adminService.hasSurvey(sType);
+				if(hasSurvey == 0) {
+					result.put("code", 4035); // 설문이 아예 없을 때
+				} else {
+					adminService.addFirstPageSurvey(sType);
+					surveyInfo = adminService.getSurveyInfo(sType, sPage);
+					result.put("code", 4033); // 처음 들어왔을 때 
+				}
+			}
+			
 		} else if(surveyInfo.getTop_menu_list_jsonData() != null) {
 			result.put("data", surveyInfo);
 			result.put("code", 200); // 있음
