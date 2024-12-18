@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import me._hanho.hrSurvey.model.Common_info;
 import me._hanho.hrSurvey.model.Survey;
+import me._hanho.hrSurvey.model.SurveyInfo;
 import me._hanho.hrSurvey.service.AdminService;
-import me._hanho.hrSurvey.service.SurveyService;
 
 
 @RestController
@@ -35,8 +35,11 @@ public class AdminController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		Common_info common_info = adminService.getCommonInfo(s_year);
+		if(s_year < 2000 ||  2999 < s_year) {
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
 		
+		Common_info common_info = adminService.getCommonInfo(s_year);
 		List<Survey> company_list = adminService.getSurveys(s_year);
 		
 		resultMap.put("common_info", common_info);
@@ -51,6 +54,8 @@ public class AdminController {
 			@RequestParam("s_year") int s_year) {
 		System.out.println("adminSetCommon");
 		Map<String, Object> result = new HashMap<String, Object>();
+		
+		System.out.println(c_info);
 		
 		adminService.adminSetCommon(c_info, s_year);
 		
@@ -76,19 +81,34 @@ public class AdminController {
 		System.out.println("adminGetSurveyInfo");
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		result.put("msg", "success");
+		SurveyInfo surveyInfo = adminService.getSurveyInfo(sType, sPage);
+		
+		if(surveyInfo == null) {
+			result.put("code", 4035); // 설문이 아예 없을 때
+		} else if(surveyInfo.getTop_menu_list_jsonData() != null) {
+			result.put("data", surveyInfo);
+			result.put("code", 200); // 있음
+		} else if(surveyInfo.getTop_menu_list_jsonData() == null) {
+			result.put("code", 4033); // 처음 들어왔을 때 
+		}
 		
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	// 설문 정보 저장
 	@PostMapping("/question/{sType}/{sPage}")
-	public ResponseEntity<Map<String, Object>> adminSetSurveyInfo(@PathVariable("sType") String sType, @PathVariable("sPage") String sPage) {
+	public ResponseEntity<Map<String, Object>> adminSetSurveyInfo(@PathVariable("sType") String sType,
+			@PathVariable("sPage") String sPage, @ModelAttribute SurveyInfo SurveyInfo) {
 		System.out.println("adminSetSurveyInfo");
 		Map<String, Object> result = new HashMap<String, Object>();
+		
+		adminService.setSurveyInfo(sType, sPage, SurveyInfo);
 		
 		result.put("msg", "success");
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
+	/* =============================================== */
+	
 	// 설문 답 조회
 	@GetMapping("/answer/data/{sType}/{page}")
 	public ResponseEntity<Map<String, Object>> getAdminSurveyResult(@PathVariable("sType") String sType, @PathVariable("page") String page) {
