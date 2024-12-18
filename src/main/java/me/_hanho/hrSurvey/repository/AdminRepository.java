@@ -44,6 +44,10 @@ public class AdminRepository {
 		return adminMapper.getSurveyInfo(sType, sPage);
 	}
 	
+	public int hasSurvey(String sType) {
+		return adminMapper.hasSurvey(sType);
+	}
+	
 	public int getSurveyId(String sType) {
 		return adminMapper.getSurveyId(sType);
 	}
@@ -59,6 +63,7 @@ public class AdminRepository {
 	public void insertPageSurvey(String sPage, SurveyInfo surveyInfo) {
 		adminMapper.insertPageSurvey(sPage, surveyInfo);
 	}
+
 
 
 	

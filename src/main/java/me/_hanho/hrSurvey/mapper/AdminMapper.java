@@ -25,6 +25,8 @@ public interface AdminMapper {
 	void adminSetSurvey(@Param("survey") Survey survey, @Param("s_year") int s_year);
 
 	SurveyInfo getSurveyInfo(@Param("sType") String sType, @Param("sPage") String sPage);
+	
+	int hasSurvey(String sType);
 
 	int getSurveyId(String sType);
 	
@@ -33,5 +35,7 @@ public interface AdminMapper {
 	void updatePageSurvey(@Param("sPage") String sPage, @Param("surveyInfo") SurveyInfo surveyInfo);
 
 	void insertPageSurvey(@Param("sPage") String sPage, @Param("surveyInfo") SurveyInfo surveyInfo);
+
+
 	
 }

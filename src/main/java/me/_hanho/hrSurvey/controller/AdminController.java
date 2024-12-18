@@ -55,10 +55,9 @@ public class AdminController {
 		System.out.println("adminSetCommon");
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		System.out.println(c_info);
-		
 		adminService.adminSetCommon(c_info, s_year);
 		
+		result.put("code", 200);
 		result.put("msg", "success");
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
@@ -71,6 +70,7 @@ public class AdminController {
 		
 		adminService.adminSetSurvey(survey, s_year);
 		
+		result.put("code", 200);
 		result.put("msg", "success");
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
@@ -84,6 +84,8 @@ public class AdminController {
 		SurveyInfo surveyInfo = adminService.getSurveyInfo(sType, sPage);
 		
 		if(surveyInfo == null) {
+			int hasSurvey = adminService.hasSurvey(sType);
+			if()
 			result.put("code", 4035); // 설문이 아예 없을 때
 		} else if(surveyInfo.getTop_menu_list_jsonData() != null) {
 			result.put("data", surveyInfo);

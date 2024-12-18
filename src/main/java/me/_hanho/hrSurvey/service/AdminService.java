@@ -17,7 +17,10 @@ public interface AdminService {
 
 	SurveyInfo getSurveyInfo(String sType, String sPage);
 	
+	int hasSurvey(String sType);
+	
 	void setSurveyInfo(String sType, String sPage, SurveyInfo surveyInfo);
+	
 
 
 

@@ -60,6 +60,12 @@ public class AdminServiceImpl implements AdminService {
 	public SurveyInfo getSurveyInfo(String sType, String sPage) {
 		return adminDAO.getSurveyInfo(sType, sPage);
 	}
+	
+	@Override
+	public int hasSurvey(String sType) {
+		return adminDAO.hasSurvey(sType);
+	}
+
 
 	@Override
 	@Transactional
@@ -75,5 +81,6 @@ public class AdminServiceImpl implements AdminService {
 			adminDAO.insertPageSurvey(sPage, surveyInfo);
 		}
 	}
+
 
 }

@@ -27,15 +27,20 @@
 	</update>
 	<update id="adminSetSurvey">
 		UPDATE survey
-		SET survey_description = #{survey.survey_description}, survey_url = #{survey.survey_url}, 
+		SET survey_description = #{survey.survey_description}, 
 		survey_name = #{survey.survey_name}
-		WHERE year = #{s_year}
+		WHERE year = #{s_year} AND survey_url = #{survey.survey_url}
 	</update>
 	<select id="getSurveyInfo">
 		SELECT jsonData, s.top_menu_list_jsonData
 		FROM page_survey ps
-		JSON survey s ON survey_id = survey_id
+		JOIN survey s ON s.survey_id = ps.survey_id
 		WHERE s.survey_url = #{sType} AND ps.sPage = #{sPage}
+	</select>
+	<select id="hasSurvey">
+		SELECT count(*)
+		FROM survey
+		WHERE survey_url = #{sType}
 	</select>
 	<select id="getSurveyId">
 		SELECT survey_id
