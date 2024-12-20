@@ -9,7 +9,8 @@ public class SurveyInfo {
 	private String munhangs;
 	private String requiredList;
 	private List<String> top_menuList;
-	
+		
+	private int p_survey_id;
 	private String top_menu_list_jsonData;
 	private String jsonData;
 	private int survey_id;
@@ -38,6 +39,20 @@ public class SurveyInfo {
 		this.munhangs = munhangs;
 		this.requiredList = requiredList;
 		this.top_menuList = top_menuList;
+		this.top_menu_list_jsonData = top_menu_list_jsonData;
+		this.jsonData = jsonData;
+		this.survey_id = survey_id;
+	}
+
+	public SurveyInfo(String initData, String initData_JSON, String munhangs, String requiredList,
+			List<String> top_menuList, int p_survey_id, String top_menu_list_jsonData, String jsonData, int survey_id) {
+		super();
+		this.initData = initData;
+		this.initData_JSON = initData_JSON;
+		this.munhangs = munhangs;
+		this.requiredList = requiredList;
+		this.top_menuList = top_menuList;
+		this.p_survey_id = p_survey_id;
 		this.top_menu_list_jsonData = top_menu_list_jsonData;
 		this.jsonData = jsonData;
 		this.survey_id = survey_id;
@@ -106,12 +121,21 @@ public class SurveyInfo {
 	public void setSurvey_id(int survey_id) {
 		this.survey_id = survey_id;
 	}
+	
+	public int getP_survey_id() {
+		return p_survey_id;
+	}
+
+	public void setP_survey_id(int p_survey_id) {
+		this.p_survey_id = p_survey_id;
+	}
 
 	@Override
 	public String toString() {
 		return "SurveyInfo [initData=" + initData + ", initData_JSON=" + initData_JSON + ", munhangs=" + munhangs
-				+ ", requiredList=" + requiredList + ", top_menuList=" + top_menuList + ", top_menu_list_jsonData="
-				+ top_menu_list_jsonData + ", jsonData=" + jsonData + ", survey_id=" + survey_id + "]";
+				+ ", requiredList=" + requiredList + ", top_menuList=" + top_menuList + ", p_survey_id=" + p_survey_id
+				+ ", top_menu_list_jsonData=" + top_menu_list_jsonData + ", jsonData=" + jsonData + ", survey_id="
+				+ survey_id + "]";
 	}
 
 }

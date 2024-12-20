@@ -32,7 +32,7 @@
 		WHERE year = #{s_year} AND survey_url = #{survey.survey_url}
 	</update>
 	<select id="getSurveyInfo">
-		SELECT jsonData, s.top_menu_list_jsonData
+		SELECT ps.p_survey_id, jsonData, s.top_menu_list_jsonData
 		FROM page_survey ps
 		JOIN survey s ON s.survey_id = ps.survey_id
 		WHERE s.survey_url = #{sType} AND ps.sPage = #{sPage}
@@ -41,6 +41,22 @@
 		SELECT count(*)
 		FROM survey
 		WHERE survey_url = #{sType}
+	</select>
+	<insert id="addPageSurvey">
+		INSERT INTO page_survey(sPage, survey_id)
+		VALUES (#{pageNum}, (SELECT survey_id FROM survey WHERE survey_url = #{sType}))
+	</insert>
+	<select id="getSurveyPageCount">
+		SELECT count(*)
+		FROM page_survey ps
+		JOIN survey s ON s.survey_id = ps.survey_id
+		WHERE s.survey_url = #{sType}
+	</select>
+	<select id="getSurveyPageCount2">
+		SELECT count(*)
+		FROM page_survey ps
+		JOIN survey s ON s.survey_id = ps.survey_id
+		WHERE s.survey_url = #{sType} AND ps.sPage = #{pageNum}
 	</select>
 	<select id="getSurveyId">
 		SELECT survey_id
@@ -57,9 +73,5 @@
 		SET jsonData = #{surveyInfo.jsonData}
 		WHERE sPage = #{sPage}
 	</update>
-	<insert id="insertPageSurvey">
-		INSERT INTO page_survey(sPage, jsonData, survey_id)
-		VALUES(#{sPage}, #{surveyInfo.jsonData}, #{surveyInfo.survey_id})
-	</insert>
 	
 </mapper>

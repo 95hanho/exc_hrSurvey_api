@@ -40,7 +40,7 @@ public class AdminRepository {
 		adminMapper.adminSetSurvey(survey, s_year);
 	}
 
-	public SurveyInfo getSurveyInfo(String sType, String sPage) {
+	public SurveyInfo getSurveyInfo(String sType, int sPage) {
 		return adminMapper.getSurveyInfo(sType, sPage);
 	}
 	
@@ -48,6 +48,18 @@ public class AdminRepository {
 		return adminMapper.hasSurvey(sType);
 	}
 	
+	public void addPageSurvey(String sType, int pageNum) {
+		adminMapper.addPageSurvey(sType, pageNum);
+	}
+	
+	public int getSurveyPageCount(String sType) {
+		return adminMapper.getSurveyPageCount(sType);
+	}
+	
+	public int getSurveyPageCount(String sType, int pageNum) {
+		return adminMapper.getSurveyPageCount2(sType, pageNum);
+	}
+
 	public int getSurveyId(String sType) {
 		return adminMapper.getSurveyId(sType);
 	}
@@ -56,17 +68,9 @@ public class AdminRepository {
 		adminMapper.updateSurvey(sType, surveyInfo);
 	}
 
-	public void updatePageSurvey(String sPage, SurveyInfo surveyInfo) {
+	public void updatePageSurvey(int sPage, SurveyInfo surveyInfo) {
 		adminMapper.updatePageSurvey(sPage, surveyInfo);
 	}
-
-	public void insertPageSurvey(String sPage, SurveyInfo surveyInfo) {
-		adminMapper.insertPageSurvey(sPage, surveyInfo);
-	}
-
-
-
-	
 
 
 }

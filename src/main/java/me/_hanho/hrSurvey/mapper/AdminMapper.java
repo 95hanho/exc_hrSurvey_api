@@ -24,17 +24,21 @@ public interface AdminMapper {
 
 	void adminSetSurvey(@Param("survey") Survey survey, @Param("s_year") int s_year);
 
-	SurveyInfo getSurveyInfo(@Param("sType") String sType, @Param("sPage") String sPage);
+	SurveyInfo getSurveyInfo(@Param("sType") String sType, @Param("sPage") int sPage);
 	
 	int hasSurvey(String sType);
-
+	
+	void addPageSurvey(@Param("sType") String sType, @Param("pageNum") int pageNum);
+	
+	int getSurveyPageCount(String sType);
+	
+	int getSurveyPageCount2(@Param("sType") String sType, @Param("pageNum") int pageNum);
+	
 	int getSurveyId(String sType);
 	
 	void updateSurvey(@Param("sType") String sType, @Param("surveyInfo") SurveyInfo surveyInfo);
 
-	void updatePageSurvey(@Param("sPage") String sPage, @Param("surveyInfo") SurveyInfo surveyInfo);
-
-	void insertPageSurvey(@Param("sPage") String sPage, @Param("surveyInfo") SurveyInfo surveyInfo);
+	void updatePageSurvey(@Param("sPage") int sPage, @Param("surveyInfo") SurveyInfo surveyInfo);
 
 
 	

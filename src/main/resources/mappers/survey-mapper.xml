@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="me._hanho.hrSurvey.mapper.SurveyMapper">
+	<select id="getCommon_info">
+		SELECT *
+		FROM common_info
+		WHERE year = #{s_year}
+	</select>
+	<select id="hasSurvey">
+		SELECT count(*)
+		FROM survey
+		WHERE survey_url = #{sType}
+	</select>
+	
+	<select id="getStore_data">
+		SELECT store_data
+		FROM page_result
+		WHERE p_survey_id = (SELECT p_survey_id FROM page_survey WHERE sPage = #{sPage} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType}))
+		AND result_id = (SELECT result_id FROM common_result WHERE R_Email = #{email})
+	</select>
+	<select id="getSurveyInfo">
+		SELECT progress_raw, top_menu_list_jsonData, jsonData
+		FROM common_result cr
+		JOIN survey s ON s.survey_id = cr.survey_id
+		JOIN page_survey ps ON ps.survey_id = s.survey_id
+		WHERE cr.R_Email = #{email} AND ps.sPage = #{sPage} AND s.survey_url = #{sType} 
+	</select>
+	
+	<insert id="addCommon_result">
+		INSERT common_result(R_Name, R_Position, R_Tel_No, R_C_Tel_No, zonecode, addr_road, 
+		addr_detail, R_Email, R_Div, R_Company_Name, R_Part_Name, R_Cate, R_Cate_Name, 
+		R_Biz_Reg_No, R_COMMON_1_1, R_COMMON_1_2, R_COMMON_1_3, R_COMMON_1_4, R_COMMON_1_5, 
+		R_COMMON_1_6, R_COMMON_1_7, R_COMMON_1_8, R_COMMON_1_9, R_COMMON_1_10, recommend, 
+		survey_id)
+		VALUES (#{c_r.R_Name}, #{c_r.R_Position}, #{c_r.R_Tel_No}, #{c_r.R_C_Tel_No}, #{c_r.zonecode}, #{c_r.addr_road},
+		 #{c_r.addr_detail}, #{c_r.R_Email}, #{c_r.R_Div}, #{c_r.R_Company_Name}, #{c_r.R_Part_Name}, #{c_r.R_Cate}, #{c_r.R_Cate_Name},
+	  	 #{c_r.R_Biz_Reg_No}, #{c_r.R_COMMON_1_1}, #{c_r.R_COMMON_1_2}, #{c_r.R_COMMON_1_3}, #{c_r.R_COMMON_1_4}, #{c_r.R_COMMON_1_5},
+	   	 #{c_r.R_COMMON_1_6}, #{c_r.R_COMMON_1_7}, #{c_r.R_COMMON_1_8}, #{c_r.R_COMMON_1_9}, #{c_r.R_COMMON_1_10}, #{c_r.recommend},
+	   	 (SELECT survey_id FROM survey WHERE survey_url = #{sType}))
+	</insert>
+	
+</mapper>

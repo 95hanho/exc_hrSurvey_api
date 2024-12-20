@@ -77,31 +77,31 @@ public class AdminController {
 	// 설문 정보 조회
 	@GetMapping("/question/{sType}/{sPage}")
 	public ResponseEntity<Map<String, Object>> adminGetSurveyInfo(@PathVariable("sType") String sType,
-			@PathVariable("sPage") String sPage) {
+			@PathVariable("sPage") int sPage) {
 		System.out.println("adminGetSurveyInfo");
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		SurveyInfo surveyInfo = adminService.getSurveyInfo(sType, sPage);
+		System.out.println(surveyInfo);
 		
 		if(surveyInfo == null) {
-			if(!sPage.equals("1")) {
+			if(sPage != 1) {
 				result.put("code", 4035); // 설문이 아예 없을 때
 			} else {
 				int hasSurvey = adminService.hasSurvey(sType);
 				if(hasSurvey == 0) {
 					result.put("code", 4035); // 설문이 아예 없을 때
 				} else {
-					adminService.addFirstPageSurvey(sType);
+					adminService.addPageSurvey(sType, 1);
 					surveyInfo = adminService.getSurveyInfo(sType, sPage);
 					result.put("code", 4033); // 처음 들어왔을 때 
 				}
 			}
-			
-		} else if(surveyInfo.getTop_menu_list_jsonData() != null) {
+		} else if(surveyInfo.getTop_menu_list_jsonData() == null && sPage == 1) {
+			result.put("code", 4033); // 처음 들어왔을 때 
+		} else {
 			result.put("data", surveyInfo);
 			result.put("code", 200); // 있음
-		} else if(surveyInfo.getTop_menu_list_jsonData() == null) {
-			result.put("code", 4033); // 처음 들어왔을 때 
 		}
 		
 		return new ResponseEntity<>(result, HttpStatus.OK);
@@ -109,12 +109,15 @@ public class AdminController {
 	// 설문 정보 저장
 	@PostMapping("/question/{sType}/{sPage}")
 	public ResponseEntity<Map<String, Object>> adminSetSurveyInfo(@PathVariable("sType") String sType,
-			@PathVariable("sPage") String sPage, @ModelAttribute SurveyInfo SurveyInfo) {
+			@PathVariable("sPage") int sPage, @ModelAttribute SurveyInfo surveyInfo,
+			@RequestParam("top_menuList") List<String> top_menuList) {
 		System.out.println("adminSetSurveyInfo");
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		adminService.setSurveyInfo(sType, sPage, SurveyInfo);
+		adminService.setSurveyInfo(sType, sPage, surveyInfo, top_menuList.size());
+//		top_menuList
 		
+		result.put("code", 200); // 있음
 		result.put("msg", "success");
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}

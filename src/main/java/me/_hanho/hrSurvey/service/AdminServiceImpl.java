@@ -57,7 +57,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public SurveyInfo getSurveyInfo(String sType, String sPage) {
+	public SurveyInfo getSurveyInfo(String sType, int sPage) {
 		return adminDAO.getSurveyInfo(sType, sPage);
 	}
 	
@@ -65,22 +65,26 @@ public class AdminServiceImpl implements AdminService {
 	public int hasSurvey(String sType) {
 		return adminDAO.hasSurvey(sType);
 	}
-
+	
+	@Override
+	public void addPageSurvey(String sType, int pageNum) {
+		adminDAO.addPageSurvey(sType, pageNum);
+	}
 
 	@Override
 	@Transactional
-	public void setSurveyInfo(String sType, String sPage, SurveyInfo surveyInfo) {
-		SurveyInfo before = adminDAO.getSurveyInfo(sType, sPage);
-		int survey_id = adminDAO.getSurveyId(sType);
-		if(before != null) {
-			adminDAO.updateSurvey(sType, surveyInfo);
-			adminDAO.updatePageSurvey(sPage, surveyInfo);
-		} else {
-			adminDAO.updateSurvey(sType, surveyInfo);
-			surveyInfo.setSurvey_id(survey_id);
-			adminDAO.insertPageSurvey(sPage, surveyInfo);
+	public void setSurveyInfo(String sType, int sPage, SurveyInfo surveyInfo, int size) {
+		int survey_page_count = adminDAO.getSurveyPageCount(sType);
+		if(survey_page_count != size) {
+			for(int i = 1; i <= size; i++) {
+				int hasPage = adminDAO.getSurveyPageCount(sType, i);
+				if(hasPage == 0) {
+					adminDAO.addPageSurvey(sType, i);
+				}
+			}
 		}
+		adminDAO.updateSurvey(sType, surveyInfo);
+		adminDAO.updatePageSurvey(sPage, surveyInfo);
 	}
-
 
 }
