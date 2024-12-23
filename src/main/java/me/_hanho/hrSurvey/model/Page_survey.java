@@ -26,6 +26,11 @@ public class Page_survey {
 		this.store_data = store_data;
 		this.jsonData = jsonData;
 	}
+	public Page_survey(String top_menu_list_jsonData, String jsonData) {
+		super();
+		this.top_menu_list_jsonData = top_menu_list_jsonData;
+		this.jsonData = jsonData;
+	}
 	public String getProgress_raw() {
 		return progress_raw;
 	}

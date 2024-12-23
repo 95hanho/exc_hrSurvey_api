@@ -10,9 +10,11 @@ public interface SurveyService {
 	
 	int hasSurvey(String sType);
 
-	int getEmailCount(String email);
+	int getEmailCount(String sType, String email);
+
+	boolean getComplete(String sType, String email);
 	
-	
+	Common_info getCommon_info(String sType);
 	
 	String getStore_data(String sType, int sPage, String email);
 	
@@ -20,6 +22,7 @@ public interface SurveyService {
 
 	void addCommon_result(String sType, Common_result common_result);
 
+	
 	
 
 

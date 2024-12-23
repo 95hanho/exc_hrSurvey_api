@@ -11,7 +11,22 @@
 		FROM survey
 		WHERE survey_url = #{sType}
 	</select>
-	
+	<select id="getEmailCount">
+		SELECT count(*)
+		FROM common_result
+		WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType})
+	</select>
+	<select id="getComplete">
+		SELECT complete
+		FROM common_result
+		WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType})
+	</select>
+	<select id="getCommon_info2">
+		SELECT start_date, end_date
+		FROM common_info ci
+		JOIN survey s ON ci.year = s.year
+		WHERE s.survey_url = #{sType}
+	</select>
 	<select id="getStore_data">
 		SELECT store_data
 		FROM page_result
@@ -19,13 +34,16 @@
 		AND result_id = (SELECT result_id FROM common_result WHERE R_Email = #{email})
 	</select>
 	<select id="getSurveyInfo">
-		SELECT progress_raw, top_menu_list_jsonData, jsonData
-		FROM common_result cr
-		JOIN survey s ON s.survey_id = cr.survey_id
+		SELECT s.top_menu_list_jsonData, ps.jsonData
+		FROM survey s
 		JOIN page_survey ps ON ps.survey_id = s.survey_id
-		WHERE cr.R_Email = #{email} AND ps.sPage = #{sPage} AND s.survey_url = #{sType} 
+		WHERE s.survey_url = #{sType} AND ps.sPage = #{sPage}
 	</select>
-	
+	<select id="get_progress_raw">
+		SELECT progress_raw
+		FROM common_result
+		WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType})
+	</select>
 	<insert id="addCommon_result">
 		INSERT common_result(R_Name, R_Position, R_Tel_No, R_C_Tel_No, zonecode, addr_road, 
 		addr_detail, R_Email, R_Div, R_Company_Name, R_Part_Name, R_Cate, R_Cate_Name, 
