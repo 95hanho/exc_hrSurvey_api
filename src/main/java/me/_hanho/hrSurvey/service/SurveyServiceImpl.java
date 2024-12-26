@@ -2,10 +2,12 @@ package me._hanho.hrSurvey.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import me._hanho.hrSurvey.model.Common_info;
 import me._hanho.hrSurvey.model.Common_result;
 import me._hanho.hrSurvey.model.Page_survey;
+import me._hanho.hrSurvey.model.Store_survey;
 import me._hanho.hrSurvey.repository.SurveyRepository;
 
 @Service
@@ -61,6 +63,17 @@ public class SurveyServiceImpl implements SurveyService {
 		surveyDAO.addCommon_result(sType, common_result);
 	}
 
+	@Override
+	@Transactional
+	public void store_survey(Store_survey store_survey) {
+		surveyDAO.store_progress_raw(store_survey);
+		surveyDAO.store_store_data(store_survey);
+	}
+
+	@Override
+	public void complete_survey(Store_survey store_survey) {
+		surveyDAO.complete_survey(store_survey);
+	}
 
 
 

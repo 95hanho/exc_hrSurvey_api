@@ -38,7 +38,7 @@ public interface AdminMapper {
 	
 	void updateSurvey(@Param("sType") String sType, @Param("surveyInfo") SurveyInfo surveyInfo);
 
-	void updatePageSurvey(@Param("sPage") int sPage, @Param("surveyInfo") SurveyInfo surveyInfo);
+	void updatePageSurvey(@Param("sPage") int sPage, @Param("sType") String sType, @Param("surveyInfo") SurveyInfo surveyInfo);
 
 
 	

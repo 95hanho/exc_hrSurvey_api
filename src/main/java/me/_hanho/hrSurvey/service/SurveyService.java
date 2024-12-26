@@ -3,6 +3,7 @@ package me._hanho.hrSurvey.service;
 import me._hanho.hrSurvey.model.Common_info;
 import me._hanho.hrSurvey.model.Common_result;
 import me._hanho.hrSurvey.model.Page_survey;
+import me._hanho.hrSurvey.model.Store_survey;
 
 public interface SurveyService {
 
@@ -22,10 +23,8 @@ public interface SurveyService {
 
 	void addCommon_result(String sType, Common_result common_result);
 
-	
-	
+	void store_survey(Store_survey store_survey);
 
-
-	
+	void complete_survey(Store_survey store_survey);
 
 }

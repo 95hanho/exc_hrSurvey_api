@@ -71,7 +71,7 @@
 	<update id="updatePageSurvey">
 		UPDATE page_survey
 		SET jsonData = #{surveyInfo.jsonData}
-		WHERE sPage = #{sPage}
+		WHERE sPage = #{sPage} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType})
 	</update>
 	
 </mapper>

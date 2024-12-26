@@ -68,8 +68,8 @@ public class AdminRepository {
 		adminMapper.updateSurvey(sType, surveyInfo);
 	}
 
-	public void updatePageSurvey(int sPage, SurveyInfo surveyInfo) {
-		adminMapper.updatePageSurvey(sPage, surveyInfo);
+	public void updatePageSurvey(int sPage, String sType, SurveyInfo surveyInfo) {
+		adminMapper.updatePageSurvey(sPage, sType, surveyInfo);
 	}
 
 

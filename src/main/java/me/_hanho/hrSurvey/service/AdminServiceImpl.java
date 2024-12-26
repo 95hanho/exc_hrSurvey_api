@@ -84,7 +84,7 @@ public class AdminServiceImpl implements AdminService {
 			}
 		}
 		adminDAO.updateSurvey(sType, surveyInfo);
-		adminDAO.updatePageSurvey(sPage, surveyInfo);
+		adminDAO.updatePageSurvey(sPage, sType, surveyInfo);
 	}
 
 }

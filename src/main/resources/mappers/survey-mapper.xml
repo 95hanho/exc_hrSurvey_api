@@ -56,5 +56,33 @@
 	   	 #{c_r.R_COMMON_1_6}, #{c_r.R_COMMON_1_7}, #{c_r.R_COMMON_1_8}, #{c_r.R_COMMON_1_9}, #{c_r.R_COMMON_1_10}, #{c_r.recommend},
 	   	 (SELECT survey_id FROM survey WHERE survey_url = #{sType}))
 	</insert>
+	<update id="store_progress_raw">
+		UPDATE common_result
+		SET progress_raw = #{progress_raw}
+		WHERE R_Email = #{email} AND
+			survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType})
+	</update>
+	<select id="has_store_survey">
+		SELECT count(*)
+		FROM page_result
+		WHERE p_survey_id = (SELECT p_survey_id FROM page_survey WHERE sPage = #{sPage} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType}))
+			AND result_id = (SELECT result_id FROM common_result WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType}))
+	</select>
+	<insert id="insert_store_data">
+		INSERT INTO page_result(store_data, p_survey_id, result_id)
+		VALUES (#{store_data}, (SELECT p_survey_id FROM page_survey WHERE sPage = #{sPage} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType})),
+			(SELECT result_id FROM common_result WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType})))
+	</insert>
+	<update id="update_store_data">
+		UPDATE page_result
+		SET store_data = #{store_data}
+		WHERE p_survey_id = (SELECT p_survey_id FROM page_survey WHERE sPage = #{sPage} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType}))
+			AND result_id = (SELECT result_id FROM common_result WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType}))
+	</update>
+	<update id="complete_survey">
+		UPDATE common_result
+		SET complete = 1
+		WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM survey WHERE survey_url = #{sType})
+	</update>
 	
 </mapper>

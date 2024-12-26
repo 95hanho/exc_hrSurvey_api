@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
 import me._hanho.hrSurvey.model.Common_info;
 import me._hanho.hrSurvey.model.Survey;
 import me._hanho.hrSurvey.model.SurveyInfo;
@@ -51,9 +52,11 @@ public class AdminController {
 	// 설문 공통 정보 저장
 	@PostMapping("/company/common")
 	public ResponseEntity<Map<String, Object>> adminSetCommon(@ModelAttribute Common_info c_info,
-			@RequestParam("s_year") int s_year) {
+			@RequestParam("s_year") int s_year, HttpServletRequest request) {
 		System.out.println("adminSetCommon");
 		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String ipAddress = request.getRemoteAddr();
 		
 		adminService.adminSetCommon(c_info, s_year);
 		
@@ -64,9 +67,11 @@ public class AdminController {
 	// 설문 수정
 	@PostMapping("/company")
 	public ResponseEntity<Map<String, Object>> adminSetSurvey(@ModelAttribute Survey survey,
-			@RequestParam("s_year") int s_year) {
+			@RequestParam("s_year") int s_year, HttpServletRequest request) {
 		System.out.println("adminSetSurvey");
 		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String ipAddress = request.getRemoteAddr();
 		
 		adminService.adminSetSurvey(survey, s_year);
 		
@@ -110,9 +115,11 @@ public class AdminController {
 	@PostMapping("/question/{sType}/{sPage}")
 	public ResponseEntity<Map<String, Object>> adminSetSurveyInfo(@PathVariable("sType") String sType,
 			@PathVariable("sPage") int sPage, @ModelAttribute SurveyInfo surveyInfo,
-			@RequestParam("top_menuList") List<String> top_menuList) {
+			@RequestParam("top_menuList") List<String> top_menuList, HttpServletRequest request) {
 		System.out.println("adminSetSurveyInfo");
 		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String ipAddress = request.getRemoteAddr();
 		
 		adminService.setSurveyInfo(sType, sPage, surveyInfo, top_menuList.size());
 //		top_menuList

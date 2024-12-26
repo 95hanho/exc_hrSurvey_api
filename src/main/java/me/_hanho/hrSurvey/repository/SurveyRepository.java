@@ -7,6 +7,7 @@ import me._hanho.hrSurvey.mapper.SurveyMapper;
 import me._hanho.hrSurvey.model.Common_info;
 import me._hanho.hrSurvey.model.Common_result;
 import me._hanho.hrSurvey.model.Page_survey;
+import me._hanho.hrSurvey.model.Store_survey;
 
 @Repository
 public class SurveyRepository {
@@ -48,6 +49,23 @@ public class SurveyRepository {
 	
 	public void addCommon_result(String sType, Common_result common_result) {
 		surveyMapper.addCommon_result(sType, common_result);
+	}
+
+	public void store_progress_raw(Store_survey store_survey) {
+		surveyMapper.store_progress_raw(store_survey);
+	}
+
+	public void store_store_data(Store_survey store_survey) {
+		if(surveyMapper.has_store_survey(store_survey) == 0) {
+			surveyMapper.insert_store_data(store_survey);
+		} else {
+			surveyMapper.update_store_data(store_survey);
+		}
+		
+	}
+
+	public void complete_survey(Store_survey store_survey) {
+		surveyMapper.complete_survey(store_survey);
 	}
 
 

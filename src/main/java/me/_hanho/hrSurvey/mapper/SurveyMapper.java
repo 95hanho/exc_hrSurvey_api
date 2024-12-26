@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import me._hanho.hrSurvey.model.Common_info;
 import me._hanho.hrSurvey.model.Common_result;
 import me._hanho.hrSurvey.model.Page_survey;
+import me._hanho.hrSurvey.model.Store_survey;
 
 @Mapper
 public interface SurveyMapper {
@@ -28,13 +29,15 @@ public interface SurveyMapper {
 	
 	void addCommon_result(@Param("sType") String sType, @Param("c_r") Common_result common_result);
 
+	void store_progress_raw(Store_survey store_survey);
+
+	int has_store_survey(Store_survey store_survey);
 	
+	void insert_store_data(Store_survey store_survey);
 
+	void update_store_data(Store_survey store_survey);
 
-
-
-
-	
+	void complete_survey(Store_survey store_survey);
 	
 	
 }

@@ -20,6 +20,7 @@ import io.jsonwebtoken.Claims;
 import me._hanho.hrSurvey.model.Common_info;
 import me._hanho.hrSurvey.model.Common_result;
 import me._hanho.hrSurvey.model.Page_survey;
+import me._hanho.hrSurvey.model.Store_survey;
 import me._hanho.hrSurvey.service.SurveyService;
 import me._hanho.hrSurvey.service.TokenService;
 
@@ -146,7 +147,7 @@ public class SurveyController {
 			@PathVariable("sPage") int sPage,
 			@RequestHeader(value="token", required = false) String token,
 			@RequestParam("store_data") String store_data, @RequestParam("progress_raw") String progress_raw,
-			@RequestParam("end") boolean end,
+			@RequestParam(value = "end", required = false) boolean end,
 			@ModelAttribute Common_result common_result) {
 		System.out.println("store_survey");
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -158,9 +159,16 @@ public class SurveyController {
 			Claims tokenInfo = tokenService.parseJwtToken(token);
 			String email = (String) tokenInfo.get("email");
 			
-			surveyService.store_survey(store_data)
+//			String sType, String sPage, String store_data, String progress_raw, String email
+			Store_survey store_survey = new Store_survey(sType, sPage, store_data, progress_raw, email);
+			
+			surveyService.store_survey(store_survey);
+			
+			System.out.println("end : " + end);
+			if(end) {
+				surveyService.complete_survey(store_survey);
+			}
 		}
-		
 		result.put("msg", "success");
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
