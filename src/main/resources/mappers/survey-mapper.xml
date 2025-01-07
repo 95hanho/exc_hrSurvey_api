@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="me._hanho.hrSurvey.mapper.SurveyMapper">
+	<select id="getCommon_info">
+		SELECT *
+		FROM hr_survey_common_info
+		WHERE year = #{s_year}
+	</select>
+	<select id="hasSurvey">
+		SELECT count(*)
+		FROM hr_survey
+		WHERE survey_url = #{sType}
+	</select>
+	<select id="getEmailCount">
+		SELECT count(*)
+		FROM hr_survey_common_result
+		WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType})
+	</select>
+	<select id="getComplete">
+		SELECT complete
+		FROM hr_survey_common_result
+		WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType})
+	</select>
+	<select id="getCommon_info2">
+		SELECT start_date, end_date
+		FROM hr_survey_common_info ci
+		JOIN hr_survey s ON ci.year = s.year
+		WHERE s.survey_url = #{sType}
+	</select>
+	<select id="getStore_data">
+		SELECT store_data
+		FROM hr_survey_page_result
+		WHERE p_survey_id = (SELECT p_survey_id FROM hr_survey_page_survey WHERE sPage = #{sPage} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType}))
+		AND result_id = (SELECT result_id FROM hr_survey_common_result WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType}))
+	</select>
+	<select id="getSurveyInfo">
+		SELECT s.top_menu_list_jsonData, ps.jsonData
+		FROM hr_survey s
+		JOIN hr_survey_page_survey ps ON ps.survey_id = s.survey_id
+		WHERE s.survey_url = #{sType} AND ps.sPage = #{sPage}
+	</select>
+	<select id="get_progress_raw">
+		SELECT progress_raw
+		FROM hr_survey_common_result
+		WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType})
+	</select>
+	<insert id="addCommon_result">
+		INSERT hr_survey_common_result(R_Name, R_Position, R_Tel_No, R_C_Tel_No, zonecode, addr_road, 
+		addr_detail, R_Email, R_Div, R_Company_Name, R_Part_Name, R_Cate, R_Cate_Name, 
+		R_Biz_Reg_No, R_COMMON_1_1, R_COMMON_1_2, R_COMMON_1_3, R_COMMON_1_4, R_COMMON_1_5, 
+		R_COMMON_1_6, R_COMMON_1_7, R_COMMON_1_8, R_COMMON_1_9, R_COMMON_1_10, recommend, 
+		survey_id)
+		VALUES (#{c_r.R_Name}, #{c_r.R_Position}, #{c_r.R_Tel_No}, #{c_r.R_C_Tel_No}, #{c_r.zonecode}, #{c_r.addr_road},
+		 #{c_r.addr_detail}, #{c_r.R_Email}, #{c_r.R_Div}, #{c_r.R_Company_Name}, #{c_r.R_Part_Name}, #{c_r.R_Cate}, #{c_r.R_Cate_Name},
+	  	 #{c_r.R_Biz_Reg_No}, #{c_r.R_COMMON_1_1}, #{c_r.R_COMMON_1_2}, #{c_r.R_COMMON_1_3}, #{c_r.R_COMMON_1_4}, #{c_r.R_COMMON_1_5},
+	   	 #{c_r.R_COMMON_1_6}, #{c_r.R_COMMON_1_7}, #{c_r.R_COMMON_1_8}, #{c_r.R_COMMON_1_9}, #{c_r.R_COMMON_1_10}, #{c_r.recommend},
+	   	 (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType}))
+	</insert>
+	<update id="store_progress_raw">
+		UPDATE hr_survey_common_result
+		SET progress_raw = #{progress_raw}
+		WHERE R_Email = #{email} AND
+			survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType})
+	</update>
+	<select id="has_store_survey">
+		SELECT count(*)
+		FROM hr_survey_page_result
+		WHERE p_survey_id = (SELECT p_survey_id FROM hr_survey_page_survey WHERE sPage = #{sPage} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType}))
+			AND result_id = (SELECT result_id FROM hr_survey_common_result WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType}))
+	</select>
+	<insert id="insert_store_data">
+		INSERT INTO hr_survey_page_result(store_data, p_survey_id, result_id)
+		VALUES (#{store_data}, (SELECT p_survey_id FROM hr_survey_page_survey WHERE sPage = #{sPage} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType})),
+			(SELECT result_id FROM hr_survey_common_result WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType})))
+	</insert>
+	<update id="update_store_data">
+		UPDATE hr_survey_page_result
+		SET store_data = #{store_data}
+		WHERE p_survey_id = (SELECT p_survey_id FROM hr_survey_page_survey WHERE sPage = #{sPage} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType}))
+			AND result_id = (SELECT result_id FROM hr_survey_common_result WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType}))
+	</update>
+	<update id="complete_survey">
+		UPDATE hr_survey_common_result
+		SET complete = 1
+		WHERE R_Email = #{email} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType})
+	</update>
+	
+</mapper>

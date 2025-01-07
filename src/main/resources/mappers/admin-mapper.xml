@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="me._hanho.hrSurvey.mapper.AdminMapper">
+	<select id="getCommonInfo">
+		SELECT *
+		FROM hr_survey_common_info
+		WHERE year = #{s_year}
+	</select>
+	<insert id="addCommonInfo">
+		INSERT INTO hr_survey_common_info(year)
+		VALUES(#{s_year})
+	</insert>
+	<select id="getSurveys">
+		select survey_description AS tesci_description, survey_url AS tesci_url,
+		 survey_name AS tesci_name, year AS tesci_year
+		FROM hr_survey
+		WHERE year = #{s_year}
+	</select>
+	<insert id="addSurvey">
+		INSERT INTO hr_survey(survey_url, survey_name, year)
+		VALUES (#{survey_url}, #{survey_name}, #{year})
+	</insert>
+	<update id="adminSetCommon">
+		UPDATE hr_survey_common_info
+		SET backcolor = #{c_info.color}, start_date = #{c_info.start_date}, end_date = #{c_info.end_date}
+		WHERE year = #{s_year}
+	</update>
+	<update id="adminSetSurvey">
+		UPDATE hr_survey
+		SET survey_description = #{survey.survey_description}, 
+		survey_name = #{survey.survey_name}
+		WHERE year = #{s_year} AND survey_url = #{survey.survey_url}
+	</update>
+	<select id="getSurveyInfo">
+		SELECT ps.p_survey_id, jsonData, s.top_menu_list_jsonData
+		FROM hr_survey_page_survey ps
+		JOIN hr_survey s ON s.survey_id = ps.survey_id
+		WHERE s.survey_url = #{sType} AND ps.sPage = #{sPage}
+	</select>
+	<select id="hasSurvey">
+		SELECT count(*)
+		FROM hr_survey
+		WHERE survey_url = #{sType}
+	</select>
+	<insert id="addPageSurvey">
+		INSERT INTO hr_survey_page_survey(sPage, survey_id)
+		VALUES (#{pageNum}, (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType}))
+	</insert>
+	<select id="getSurveyPageCount">
+		SELECT count(*)
+		FROM hr_survey_page_survey ps
+		JOIN hr_survey s ON s.survey_id = ps.survey_id
+		WHERE s.survey_url = #{sType}
+	</select>
+	<select id="getSurveyPageCount2">
+		SELECT count(*)
+		FROM hr_survey_page_survey ps
+		JOIN hr_survey s ON s.survey_id = ps.survey_id
+		WHERE s.survey_url = #{sType} AND ps.sPage = #{pageNum}
+	</select>
+	<select id="getSurveyId">
+		SELECT survey_id
+		FROM hr_survey
+		WHERE survey_url = #{sType}
+	</select>
+	<update id="updateSurvey">
+		UPDATE hr_survey
+		SET top_menu_list_jsonData = #{surveyInfo.top_menu_list_jsonData}
+		WHERE survey_url = #{sType}
+	</update>
+	<update id="updatePageSurvey">
+		UPDATE hr_survey_page_survey
+		SET jsonData = #{surveyInfo.jsonData}
+		WHERE sPage = #{sPage} AND survey_id = (SELECT survey_id FROM hr_survey WHERE survey_url = #{sType})
+	</update>
+	
+</mapper>
