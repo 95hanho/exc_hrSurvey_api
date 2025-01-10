@@ -1,5 +1,6 @@
 package me._hanho.hrSurvey.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,16 @@ public class AdminController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		String ipAddress = request.getRemoteAddr();
+		logger.info("ipAddress : " + ipAddress);
+		
+		// 허용 IP 리스트
+	    List<String> allowedIps = Arrays.asList("203.245.44.21"); // 허용할 IP를 리스트에 추가
+	    
+	    // IP 제한 체크
+	    if (!allowedIps.contains(ipAddress)) {
+	        result.put("msg", "Access denied: Unauthorized IP");
+	        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+	    }
 		
 		adminService.adminSetCommon(c_info, s_year);
 		
@@ -76,6 +87,16 @@ public class AdminController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		String ipAddress = request.getRemoteAddr();
+		logger.info("ipAddress : " + ipAddress);
+		
+		// 허용 IP 리스트
+	    List<String> allowedIps = Arrays.asList("203.245.44.21"); // 허용할 IP를 리스트에 추가
+	    
+	    // IP 제한 체크
+	    if (!allowedIps.contains(ipAddress)) {
+	        result.put("msg", "Access denied: Unauthorized IP");
+	        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+	    }
 		
 		adminService.adminSetSurvey(survey, s_year);
 		
@@ -124,6 +145,16 @@ public class AdminController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		String ipAddress = request.getRemoteAddr();
+		logger.info("ipAddress : " + ipAddress);
+		
+		// 허용 IP 리스트
+	    List<String> allowedIps = Arrays.asList("203.245.44.21"); // 허용할 IP를 리스트에 추가
+	    
+	    // IP 제한 체크
+	    if (!allowedIps.contains(ipAddress)) {
+	        result.put("msg", "Access denied: Unauthorized IP");
+	        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+	    }
 		
 		adminService.setSurveyInfo(sType, sPage, surveyInfo, top_menuList.size());
 //		top_menuList
