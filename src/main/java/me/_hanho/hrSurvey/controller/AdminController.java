@@ -63,6 +63,18 @@ public class AdminController {
 		
 		String ipAddress = request.getRemoteAddr();
 		logger.info("ipAddress : " + ipAddress);
+<<<<<<< HEAD
+=======
+		
+		// 허용 IP 리스트
+	    List<String> allowedIps = Arrays.asList("203.245.44.21"); // 허용할 IP를 리스트에 추가
+	    
+	    // IP 제한 체크
+	    if (!allowedIps.contains(ipAddress)) {
+	        result.put("msg", "Access denied: Unauthorized IP");
+	        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+	    }
+>>>>>>> d2873edca6bd862b124b75c03e73dffd2438349b
 		
 		// 허용 IP 리스트
 	    List<String> allowedIps = Arrays.asList("203.245.44.21"); // 허용할 IP를 리스트에 추가
