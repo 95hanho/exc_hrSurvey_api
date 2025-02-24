@@ -1,5 +1,6 @@
 package me._hanho.hrSurvey.controller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,19 @@ public class AdminController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		String ipAddress = request.getRemoteAddr();
+		logger.info("ipAddress : " + ipAddress);
 		
+		// 허용 IP 리스트
+	    List<String> allowedIps = Arrays.asList("203.245.44.21"); // 허용할 IP를 리스트에 추가
+	    
+	    // IP 제한 체크
+	    if (!allowedIps.contains(ipAddress)) {
+	        result.put("msg", "Access denied: Unauthorized IP");
+	        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+	    }
+		
+	    logger.info("c_info : " + c_info);
+	    
 		adminService.adminSetCommon(c_info, s_year);
 		
 		result.put("code", 200);
@@ -76,6 +89,16 @@ public class AdminController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		String ipAddress = request.getRemoteAddr();
+		logger.info("ipAddress : " + ipAddress);
+		
+		// 허용 IP 리스트
+	    List<String> allowedIps = Arrays.asList("203.245.44.21"); // 허용할 IP를 리스트에 추가
+	    
+	    // IP 제한 체크
+	    if (!allowedIps.contains(ipAddress)) {
+	        result.put("msg", "Access denied: Unauthorized IP");
+	        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+	    }
 		
 		adminService.adminSetSurvey(survey, s_year);
 		
@@ -124,6 +147,16 @@ public class AdminController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		
 		String ipAddress = request.getRemoteAddr();
+		logger.info("ipAddress : " + ipAddress);
+		
+		// 허용 IP 리스트
+	    List<String> allowedIps = Arrays.asList("203.245.44.21"); // 허용할 IP를 리스트에 추가
+	    
+	    // IP 제한 체크
+	    if (!allowedIps.contains(ipAddress)) {
+	        result.put("msg", "Access denied: Unauthorized IP");
+	        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+	    }
 		
 		adminService.setSurveyInfo(sType, sPage, surveyInfo, top_menuList.size());
 //		top_menuList
@@ -146,9 +179,21 @@ public class AdminController {
 	}
 	// 설문내용 하나 삭제
 	@PostMapping("/member/remove/{sType}")
-	public ResponseEntity<Map<String, Object>> adminDeleteSurvey(@PathVariable("sType") String sType, @RequestParam("email") String email) {
+	public ResponseEntity<Map<String, Object>> adminDeleteSurvey(@PathVariable("sType") String sType, @RequestParam("email") String email, HttpServletRequest request) {
 		logger.info("adminDeleteSurvey");
 		Map<String, Object> result = new HashMap<String, Object>();
+		
+		String ipAddress = request.getRemoteAddr();
+		logger.info("ipAddress : " + ipAddress);
+		
+		// 허용 IP 리스트
+	    List<String> allowedIps = Arrays.asList("203.245.44.21"); // 허용할 IP를 리스트에 추가
+	    
+	    // IP 제한 체크
+	    if (!allowedIps.contains(ipAddress)) {
+	        result.put("msg", "Access denied: Unauthorized IP");
+	        return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
+	    }
 		
 		result.put("msg", "success");
 		return new ResponseEntity<>(result, HttpStatus.OK);
