@@ -50,6 +50,7 @@ public class SurveyServiceImpl implements SurveyService {
 	public Page_survey getSurveyInfo(String sType, int sPage, String email) {
 		Page_survey page_survey = new Page_survey();
 		Page_survey ps = surveyDAO.getSurveyInfo(sType, sPage);
+		System.out.println(ps);
 		if(ps != null) {
 			page_survey = new Page_survey(ps.getTop_menu_list_jsonData(), ps.getJsonData());
 		}

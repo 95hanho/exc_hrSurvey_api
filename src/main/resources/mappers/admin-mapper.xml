@@ -22,7 +22,7 @@
 	</insert>
 	<update id="adminSetCommon">
 		UPDATE hr_survey_common_info
-		SET backcolor = #{c_info.color}, start_date = #{c_info.start_date}, end_date = #{c_info.end_date}
+		SET backcolor = #{c_info.color}, start_date = #{c_info.start_date}, end_date = #{c_info.end_date}, remote_status = #{c_info.remote_status}
 		WHERE year = #{s_year}
 	</update>
 	<update id="adminSetSurvey">

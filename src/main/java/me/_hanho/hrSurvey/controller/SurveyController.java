@@ -46,9 +46,10 @@ public class SurveyController {
 		
 		Common_info common_info = surveyService.getCommon_info(s_year);
 		
+		System.out.println(common_info);
+		
 		result.put("result", common_info);
-		result.put("remote_status", false); // 관리자 여부
-		result.put("code", 200);
+		result.put("code", 200);	
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	// 설문 시작 조회

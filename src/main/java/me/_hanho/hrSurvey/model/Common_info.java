@@ -8,6 +8,7 @@ public class Common_info {
 	private String backcolor;
 	private Date start_date;
 	private Date end_date;
+	private boolean remote_status;
 	
 	public Common_info() {
 	}
@@ -25,6 +26,15 @@ public class Common_info {
 		this.backcolor = backcolor;
 		this.start_date = start_date;
 		this.end_date = end_date;
+	}
+	
+	public Common_info(String color, String backcolor, Date start_date, Date end_date, boolean remote_status) {
+		super();
+		this.color = color;
+		this.backcolor = backcolor;
+		this.start_date = start_date;
+		this.end_date = end_date;
+		this.remote_status = remote_status;
 	}
 
 	public String getColor() {
@@ -58,11 +68,20 @@ public class Common_info {
 	public void setEnd_date(Date end_date) {
 		this.end_date = end_date;
 	}
+	
+	public boolean isRemote_status() {
+		return remote_status;
+	}
+
+	public void setRemote_status(boolean remote_status) {
+		this.remote_status = remote_status;
+	}
 
 	@Override
 	public String toString() {
 		return "Common_info [color=" + color + ", backcolor=" + backcolor + ", start_date=" + start_date + ", end_date="
-				+ end_date + "]";
+				+ end_date + ", remote_status=" + remote_status + "]";
 	}
+
 	
 }
