@@ -40,7 +40,10 @@ public class SurveyRepository {
 	}
 	
 	public Page_survey getSurveyInfo(String sType, int sPage) {
-		return surveyMapper.getSurveyInfo(sType, sPage);
+		System.out.println(sType + "+" + sPage);
+		Page_survey pageSurvey = surveyMapper.getSurveyInfo(sType, sPage);
+		System.out.println("pageSurvey" + pageSurvey);
+		return pageSurvey;
 	}
 	
 	public String get_progress_raw(String sType, String email) {

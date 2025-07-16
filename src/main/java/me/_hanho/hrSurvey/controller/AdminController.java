@@ -65,7 +65,7 @@ public class AdminController {
 		logger.info("ipAddress : " + ipAddress);
 		
 		// 허용 IP 리스트
-	    List<String> allowedIps = Arrays.asList("203.245.44.21"); // 허용할 IP를 리스트에 추가
+	    List<String> allowedIps = Arrays.asList("0:0:0:0:0:0:0:1", "203.245.44.21"); // 허용할 IP를 리스트에 추가
 	    
 	    // IP 제한 체크
 	    if (!allowedIps.contains(ipAddress)) {
